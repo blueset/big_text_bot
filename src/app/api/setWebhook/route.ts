@@ -10,3 +10,5 @@ export async function GET(request: Request) {
     });
     return Response.json({outcome, url: `https://${URL}/api/webhook`});
 }
+
+export const dynamic = "force-dynamic";

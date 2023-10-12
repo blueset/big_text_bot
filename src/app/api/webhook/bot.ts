@@ -1,7 +1,7 @@
 import { Telegraf } from "telegraf";
 
 const ERROR_DUMP = parseInt(process.env.ERROR_DUMP!);
-const WEB_UI_URL = `${process.env.URL!}editor`;
+const WEB_UI_URL = `https://${process.env.NEXT_PUBLIC_VERCEL_URL!}/editor`;
 
 const helpText = `Text Sticker.
 

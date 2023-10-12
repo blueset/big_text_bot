@@ -5,22 +5,21 @@ const WEB_UI_URL = `https://${process.env.NEXT_PUBLIC_VERCEL_URL!}/editor`;
 
 const helpText = `Text Sticker.
 
-I'm an inline bot. I make stickers with texts. Quote the text directly, and I will generate stickers for you.
+I'm an inline bot. I make stickers with texts. Give me any text, and I will generate stickers for you.
 
 <b>How to use</b>
 1. @ me
-2. Type your words, then type <code>&amp;</code>
-3. Wait until the circle stop turning
-4. Tap/click the first sticker (or where it supposed to be)
+2. Choose “Create a sticker” in the menu
+3. Write anything you want in the editor window
+4. Tap “Send”
+5. Tap the sticker to send it to the chat
 
-If there's no pop-up showing, try again a few seconds later, or check if it's in the public anon dump. If it's not anywhere, I'm probably down.
+If there's no pop-up showing, try again a few seconds later, or check if it’s in the public anon dump. If it's not anywhere, I'm probably down.
 
 <b>Tips</b>
 You have to make line breaks manually, or everything will be squeezed in one line.
 
-Start a message with <code>serif\`</code> to generate stickers in serif fonts.
-
-Major languages are supported by Noto Fonts by Google. Emoji is supported by Noto Color Emoji.
+You can now choose fonts, weight, italics, and colors in the editor window.
 
 All unique stickers are saved in the <a href="https://t.me/joinchat/AAAAAEJEZ9HK1pmDJMS5ZQ">Public Anonymous Dump of @big_text_bot</a> as a essential component for this bot to work.`
 

@@ -1,0 +1,53 @@
+@import '../variables';
+
+.comboBox {
+    border-radius: 0.25em;
+    border: 1px solid;
+    @include border-color-mix(var(--tg-theme-text-color, $text-color), 80%);
+    color: var(--tg-theme-text-color, $text-color);
+
+    .comboBoxControl {
+        min-height: unset;
+        padding: 0.25em 0.5em;
+    }
+
+    .comboBoxMenu {
+        background-color: var(--tg-theme-bg-color, $background-color);
+        border-radius: 0.5em;
+        margin: 0.5em 0;
+        box-shadow: 0 0 0.5em #000000a0;
+        border: 1px solid;
+        @include border-color-mix(var(--tg-theme-text-color, $text-color), 80%);
+    }
+
+    .comboBoxItem {
+        padding: 0.5rem 1rem;
+    }
+
+    .comboBoxOption {
+        @extend .comboBoxItem;
+        &:hover {
+            @include background-color-mix(var(--tg-theme-button-color, $button-color), 65%);
+        }
+        &:active {
+            @include background-color-mix(var(--tg-theme-button-color, $button-color), 60%);
+        }
+    }
+
+    .comboBoxOptionSelected {
+        @extend .comboBoxOption;
+
+        &, &:hover, &:active {
+            color: var(--tg-theme-button-text-color, $button-text-color);
+            background-color: var(--tg-theme-button-color, $button-color);
+        }
+    }
+
+    .comboBoxGroupHeading {
+        @extend .comboBoxItem;
+        font-size: 0.75em;
+        color: var(--tg-theme-hint-color, $hint-color);
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+}

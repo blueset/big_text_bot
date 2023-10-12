@@ -1,0 +1,53 @@
+@import '../variables';
+
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center;
+    max-width: 100%;
+    --field-text-color: #000000;
+    --field-stroke-color: #ffffff;
+    font-weight: 700;
+    font-family: sans-serif;
+    font-feature-settings: "palt" 1;
+}
+
+.container {
+    width: 512px;
+    height: 512px;
+    min-width: 512px;
+    min-height: 512px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrap {
+    position: relative;
+}
+
+.text {
+    text-align: center;
+    -webkit-text-stroke-color: var(--field-stroke-color);
+    -webkit-text-stroke-width: 5px;
+    color: var(--field-text-color);
+    white-space: pre;
+    line-height: 1;
+}
+
+.textCover{
+    @extend .text;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-text-stroke: 0;
+    z-index: 2;
+    caret-color: var(--tg-theme-text-color, $text-color);
+
+    &:focus {
+        outline: none;
+    }
+}

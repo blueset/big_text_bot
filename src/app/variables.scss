@@ -1,0 +1,25 @@
+$secondary-bg-color: #101010;
+$background-color: #000000;
+$text-color: #ffffff;
+$link-color: #479ef5;
+$hint-color: #aaaaaa;
+$button-color: #0f6cbd;
+$button-text-color: #ffffff;
+
+@mixin background-color-mix($color, $amount, $fallback: "") {
+    @supports (color: color-mix(in srgb, #000, #fff 50%)) {
+        background-color: color-mix(in srgb, $color, transparent $amount);
+    }
+    @if $fallback != "" {
+        background-color: $fallback;
+    } @else {
+        background-color: $color;
+    }
+}
+
+@mixin border-color-mix($color, $amount) {
+    @supports (color: color-mix(in srgb, #000, #fff 50%)) {
+        border-color: color-mix(in srgb, $color, transparent $amount);
+    }
+    border-color: $color;
+}

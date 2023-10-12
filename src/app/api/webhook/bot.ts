@@ -5,7 +5,7 @@ const WEB_UI_URL = `https://${process.env.NEXT_PUBLIC_VERCEL_URL!}/editor`;
 
 const helpText = `Text Sticker.
 
-I'm an inline bot. I make stickers with texts. Give me any text, and I will generate stickers for you.
+I’m an inline bot. I make stickers with texts. Give me any text, and I will generate stickers for you.
 
 <b>How to use</b>
 1. @ me
@@ -14,7 +14,7 @@ I'm an inline bot. I make stickers with texts. Give me any text, and I will gene
 4. Tap “Send”
 5. Tap the sticker to send it to the chat
 
-If there's no pop-up showing, try again a few seconds later, or check if it’s in the public anon dump. If it's not anywhere, I'm probably down.
+If there’s no pop-up showing, try again a few seconds later, or check if it’s in the public anon dump. If it's not anywhere, I'm probably down.
 
 <b>Tips</b>
 You have to make line breaks manually, or everything will be squeezed in one line.

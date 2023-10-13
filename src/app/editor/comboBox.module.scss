@@ -5,6 +5,7 @@
     border: 1px solid;
     @include border-color-mix(var(--tg-theme-text-color, $text-color), 80%);
     color: var(--tg-theme-text-color, $text-color);
+    flex-grow: 1;
 
     .comboBoxControl {
         min-height: unset;

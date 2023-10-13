@@ -22,11 +22,11 @@
     border: 0;
 
     &:hover {
-        @include background-color-mix(var(--tg-theme-button-color, $button-color), 90%);
+        @include background-color-mix(var(--tg-theme-button-color, $button-color), 10%);
     }
 
     &:active {
-        @include background-color-mix(var(--tg-theme-button-color, $button-color), 95%);
+        @include background-color-mix(var(--tg-theme-button-color, $button-color), 20%);
     }
 }
 

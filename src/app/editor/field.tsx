@@ -79,7 +79,8 @@ export function Field({ containerRef, fieldConfigs }: { containerRef?: RefObject
         row.style.fontStyle = fieldConfigs.fontStyle;
         row.style.fontStretch = fieldConfigs.fontStretch;
         row.lang = fieldConfigs.lang;
-    }, [fieldConfigs])
+        resize();
+    }, [fieldConfigs, resize])
 
     return (
         <div className={classes.row} ref={rowRef}>

@@ -38,11 +38,11 @@ export function GoogleFontsLoader({ addFont }: { addFont: (font: string) => void
                 <h2>Category</h2>
                 <div className={classes.categorySelector}>
                     <label className={category === "all" ? classes.checked : undefined}><input type="radio" name="category" value="all" checked={category === "all"} onChange={onCategoryChange} />All</label>
-                    <label className={category === "serif" ? classes.checked : undefined}><input type="radio" name="category" value="serif" checked={category === "serif"} onChange={onCategoryChange} />Serif</label>
-                    <label className={category === "sans-serif" ? classes.checked : undefined}><input type="radio" name="category" value="sans-serif" checked={category === "sans-serif"} onChange={onCategoryChange} />Sans-serif</label>
-                    <label className={category === "display" ? classes.checked : undefined}><input type="radio" name="category" value="display" checked={category === "display"} onChange={onCategoryChange} />Display</label>
-                    <label className={category === "handwriting" ? classes.checked : undefined}><input type="radio" name="category" value="handwriting" checked={category === "handwriting"} onChange={onCategoryChange} />Handwriting</label>
-                    <label className={category === "monospace" ? classes.checked : undefined}><input type="radio" name="category" value="monospace" checked={category === "monospace"} onChange={onCategoryChange} />Monospace</label>
+                    <label className={category === "serif" ? classes.checked : undefined} style={{ fontFamily: "serif" }}><input type="radio" name="category" value="serif" checked={category === "serif"} onChange={onCategoryChange} />Serif</label>
+                    <label className={category === "sans-serif" ? classes.checked : undefined} style={{ fontFamily: "sans-serif" }}><input type="radio" name="category" value="sans-serif" checked={category === "sans-serif"} onChange={onCategoryChange} />Sans-serif</label>
+                    <label className={category === "display" ? classes.checked : undefined} style={{ fontFamily: "display" }}><input type="radio" name="category" value="display" checked={category === "display"} onChange={onCategoryChange} />Display</label>
+                    <label className={category === "handwriting" ? classes.checked : undefined} style={{ fontFamily: "handwriting" }}><input type="radio" name="category" value="handwriting" checked={category === "handwriting"} onChange={onCategoryChange} />Handwriting</label>
+                    <label className={category === "monospace" ? classes.checked : undefined} style={{ fontFamily: "monospace" }}><input type="radio" name="category" value="monospace" checked={category === "monospace"} onChange={onCategoryChange} />Monospace</label>
                 </div>
                 <h2>Font</h2>
                 <Select
@@ -50,8 +50,6 @@ export function GoogleFontsLoader({ addFont }: { addFont: (font: string) => void
                     value={font}
                     options={effectiveFontInfo}
                     onChange={(font) => setFont(font as FontInfo)}
-                    // createOptionPosition="first"
-                    // formatCreateLabel={inputValue => `Use “${inputValue}”`}
                     classNames={comboBoxClassesConfig}
                 />
                 <div className={classes.buttonRow}>

@@ -145,7 +145,7 @@ export function FieldWithOptions({ containerRef }: { containerRef?: RefObject<HT
                     ))}
                     <button 
                         className={classes.colorButton} 
-                        onClick={() => setFieldConfigs(fc => ({ ...fc, textColor: fc.strokeColor, strokeColor: fc.textColor }))}
+                        onClick={() => setFieldConfigs(fc => ({ ...fc, textColor: fc.textColor, strokeColor: fc.strokeColor }))}
                         title="Swap text and stroke colors"
                     ><ArrowSwap20 /></button>
                 </div>

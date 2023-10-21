@@ -125,7 +125,10 @@ export function FieldWithOptions({ containerRef }: { containerRef?: RefObject<HT
     return (
         <>
             <button className={classes.settingsButton} onClick={() => {
-                if (!window?.Telegram?.WebApp?.isExpanded) window?.Telegram?.WebApp?.expand();
+                if (!window?.Telegram?.WebApp?.isExpanded) {
+                    window?.Telegram?.WebApp?.expand();
+                    window?.Telegram?.WebApp?.MainButton.hide();
+                }
                 dialogRef.current?.showModal();
             }}><Settings24 /> Options</button>
             <dialog ref={dialogRef} className={classes.settingsDialog}>
@@ -207,7 +210,7 @@ export function FieldWithOptions({ containerRef }: { containerRef?: RefObject<HT
                 <input value={fieldConfigs.fontFeatureSettings} onChange={(e) => setFieldConfigs(fc => ({ ...fc, fontFeatureSettings: e.target.value }))} placeholder='e.g. "palt" 1' />
                 </label>
                 <form method="dialog">
-                    <button className={classes.button}>Close</button>
+                    <button className={classes.button} onClick={() => window?.Telegram?.WebApp?.MainButton?.show?.()}>Close</button>
                 </form>
             </dialog>
             <Field containerRef={containerRef} fieldConfigs={fieldConfigs} />

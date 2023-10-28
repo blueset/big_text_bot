@@ -76,7 +76,8 @@
     gap: 0.5em;
 
     label {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
         border-radius: 2em;
         padding: 0.25em 1em;
         @include background-color-mix(var(--tg-theme-text-color, $text-color), 85%, transparent);

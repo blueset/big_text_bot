@@ -19,11 +19,11 @@ with open("../../editor/fontInfo.json", "w") as f:
 
 loader_strs = {}
 for font in base_data.values():
-    loader_strs[font["family"]] = "ital,wght@" + ";".join(
+    loader_strs[font["family"]] = "ital,wght@" + ";".join(sorted(
         f"{'1' if style == 'italic' else '0'},{weight}"
         for style, weight in
         itertools.product(font["styles"], font["weights"])
-    )
+    ))
 
 # %%
 for font in variable_data.values():

@@ -86,8 +86,8 @@ export function Field({ containerRef, fieldConfigs }: { containerRef?: RefObject
         <div className={classes.row} ref={rowRef}>
         <div className={classes.container} ref={containerRef}>
             <div className={classes.wrap} ref={wrapRef}>
-                <div className={classes.text} ref={textRef}>Enter your<br />text here.</div>
-                <div className={classes.textCover} contentEditable suppressContentEditableWarning ref={coverRef} onInput={resize}>Enter your<br />text here.</div>
+                <div data-ref="text" className={classes.text} ref={textRef}>Enter your<br />text here.</div>
+                <div data-ref="cover" className={classes.textCover} contentEditable suppressContentEditableWarning ref={coverRef} onInput={resize}>Enter your<br />text here.</div>
             </div>
         </div>
         </div>

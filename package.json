@@ -11,6 +11,8 @@
   "dependencies": {
     "@jsquash/webp": "^1.2.0",
     "@saschazar/wasm-webp": "^3.0.1",
+    "@uiw/react-textarea-code-editor": "^3.0.2",
+    "html-to-image": "^1.11.11",
     "html2canvas": "^1.4.1",
     "next": "13.5.4",
     "react": "^18",

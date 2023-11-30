@@ -9,6 +9,7 @@ import ArrowSwap20 from '~icons/fluent/arrow-swap20-regular.jsx';
 import { Option, GroupedOption, comboBoxClassesConfig } from "./selectorTypes";
 import { FontSelector } from "./fontSelector";
 import { FontStretchSelector } from "./fontStretchSelector";
+import { HTMLEdit } from "./htmlEdit";
 
 const palettes = [
     { a: "#000000", b: "#ffffff", name: "Black" },
@@ -184,6 +185,7 @@ export function FieldWithOptions({ containerRef }: { containerRef?: RefObject<HT
                 <label className={classes.inputGroupColumn}>Advanced OpenType feature settings
                     <input value={fieldConfigs.fontFeatureSettings} onChange={(e) => setFieldConfigs(fc => ({ ...fc, fontFeatureSettings: e.target.value }))} placeholder='e.g. "palt" 1' />
                 </label>
+                <HTMLEdit containerRef={containerRef} />
                 <form method="dialog">
                     <button className={classes.button} onClick={() => window?.Telegram?.WebApp?.MainButton?.show?.()}>Close</button>
                 </form>

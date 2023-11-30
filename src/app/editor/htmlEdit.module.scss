@@ -1,0 +1,85 @@
+@import '../variables';
+
+.button {
+    margin-top: 0.5em;
+    width: 100%;
+    border-radius: 0.5em;
+    font-size: 1em;
+    padding: 0.5em 1em;
+    background-color: transparent;
+
+    svg {
+        vertical-align: bottom;
+        margin-right: 0.25em;
+    }
+}
+
+.primaryButton {
+    @extend .button;
+
+    background-color: var(--tg-theme-button-color, $button-color);
+    color: var(--tg-theme-button-text-color, $button-text-color);
+    border: 0;
+
+    &:hover {
+        @include background-color-mix(var(--tg-theme-button-color, $button-color), 10%);
+    }
+
+    &:active {
+        @include background-color-mix(var(--tg-theme-button-color, $button-color), 20%);
+    }
+}
+
+.secondaryButton {
+    @extend .button;
+
+    color: var(--tg-theme-button-color, $button-color);
+    border: 1px solid var(--tg-theme-button-color, $button-color);
+
+    &:hover {
+        @include background-color-mix(var(--tg-theme-text-color, $text-color), 90%);
+    }
+
+    &:active {
+        @include background-color-mix(var(--tg-theme-text-color, $text-color), 95%);
+    }
+}
+
+.dialog {
+    color: var(--tg-theme-text-color, $text-color);
+    border-radius: 1em;
+    @include border-color-mix(var(--tg-theme-text-color, $text-color), 60%);
+    border-width: 1px;
+    background-color: var(--tg-theme-bg-color, $background-color);
+    box-sizing: border-box;
+    width: calc(100% - 4em);
+    max-height: calc(100% - 2em);
+
+    h2 {
+        margin: 1em 0 0.25em 0;
+        font-size: 0.7em;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: var(--tg-theme-hint-color, $hint-color);
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+}
+
+.buttonRow {
+    margin-top: 0.5em;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    button {
+        width: 0;
+        flex-grow: 1;
+    }
+}
+
+.textarea {
+    font-family: Recursive, monospace;
+    border-radius: 0.5em;
+}

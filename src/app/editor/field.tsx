@@ -15,6 +15,41 @@ interface FieldConfigs {
     fontFeatureSettings: string;
 }
 
+function findMinPixelSize(elm: HTMLElement): number | null {
+    const values = [];
+    let style = elm.getAttribute("style");
+    if (style) {
+        style = style.replaceAll(/rem/g, "em");
+        elm.setAttribute("style", style);
+        const matches = Array.from(style.matchAll(/(\d+(?:\.\d+)?)px/g));
+        for (const match of matches) {
+            if (parseInt(match[1])) values.push(parseInt(match[1]));
+        }
+        if (elm.style.fontSize && !elm.style.fontSize.endsWith("em")) {
+            values.push(parseInt(window.getComputedStyle(document.body).fontSize.replace("px", "")));
+            elm.style.fontSize = "";
+        }
+    }
+    for (const child of Array.from(elm.children)) {
+        const value = findMinPixelSize(child as HTMLElement);
+        if (value !== null) {
+            values.push(value);
+        }
+    }
+    return values.length ? Math.min(...values) : null;
+}
+
+function convertPxToEm(elm: HTMLElement, basePx: number) {
+    const style = elm.getAttribute("style");
+    if (style) {
+        style.replaceAll(/(\d+)px/g, (match, p1) => `${parseInt(p1) / basePx}em`);
+        elm.setAttribute("style", style);
+    }
+    for (const child of Array.from(elm.children)) {
+        convertPxToEm(child as HTMLElement, basePx);
+    }
+}
+
 export function Field({ containerRef, fieldConfigs }: { containerRef?: RefObject<HTMLDivElement>, fieldConfigs: FieldConfigs }) {
     const rowRef = useRef<HTMLDivElement>(null);
     const wrapRef = useRef<HTMLDivElement>(null);
@@ -48,7 +83,8 @@ export function Field({ containerRef, fieldConfigs }: { containerRef?: RefObject
 
     useEffect(() => {
         const row = rowRef.current;
-        if (!row) return;
+        const cover = coverRef.current;
+        if (!row || !cover) return;
 
         const observer = new ResizeObserver(() => {
             row.style.scale = "1";
@@ -59,11 +95,36 @@ export function Field({ containerRef, fieldConfigs }: { containerRef?: RefObject
         const clickListener = () => {
             coverRef.current?.focus();
         };
+
+        const pasteListener = (e: ClipboardEvent) => {
+            if (e.clipboardData?.types.includes("text/html")) {
+                const html = e.clipboardData.getData("text/html");
+                const div = document.createElement("div");
+                div.innerHTML = html;
+                const minPixelSize = findMinPixelSize(div);
+                if (minPixelSize) {
+                    console.log("resizer activated");
+                    e.preventDefault();
+                    convertPxToEm(div, minPixelSize);
+
+                    const selection = window.getSelection();
+                    if (!selection?.rangeCount) return false;
+                    selection.deleteFromDocument();
+                    for (const child of Array.from(div.children).reverse()) {
+                        selection.getRangeAt(0).insertNode(child);
+                    }
+                    resize();
+                }
+            }
+        }
+
         row.addEventListener("click", clickListener);
+        cover.addEventListener("paste", pasteListener);
 
         return () => {
             observer.disconnect();
             row.removeEventListener("click", clickListener);
+            cover.removeEventListener("paste", pasteListener);
         };
     }, []);
 

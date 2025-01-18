@@ -11,7 +11,7 @@ export default function Page() {
 
     useEffect(() => {
         const webapp = window?.Telegram?.WebApp;
-        if (!webapp) { alert("Web App not found!") };
+        if (!webapp) { alert("Web App not found!"); return; };
         webapp.MainButton.text = "Send";
         webapp.onEvent("mainButtonClicked", async () => {
             try {

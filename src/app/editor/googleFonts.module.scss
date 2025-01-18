@@ -69,6 +69,10 @@
     }
 }
 
+.inline {
+    display: inline-block;
+}
+
 .categorySelector {
     display: flex;
     flex-direction: row;
@@ -100,7 +104,7 @@
             outline: var(--tg-theme-button-color, $button-color) auto 1px;
         }
 
-        &.checked, &.checked:hover, &.checked:active {
+        &:has(input:checked), &:has(input:checked):hover, &:has(input:checked):active {
             background-color: var(--tg-theme-button-color, $button-color);
             color: var(--tg-theme-button-text-color, $button-text-color);
         }

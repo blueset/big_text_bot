@@ -13,8 +13,8 @@ font_info = [
     for i in base_data.values()
 ]
 # %%
-with open("../../editor/fontInfo.json", "w") as f:
-    json.dump(font_info, f)
+# with open("../../editor/fontInfo.json", "w") as f:
+#     json.dump(font_info, f)
 # %%
 
 loader_strs = {}

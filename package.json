@@ -20,7 +20,7 @@
     "react-fontpicker-ts": "^0.3.0",
     "react-select": "^5.7.7",
     "sass": "^1.69.0",
-    "telegraf": "^4.14.0"
+    "telegraf": "^4.16.3"
   },
   "devDependencies": {
     "@iconify/json": "^2.2.127",

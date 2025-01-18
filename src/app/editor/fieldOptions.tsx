@@ -10,6 +10,7 @@ import { Option, GroupedOption, comboBoxClassesConfig } from "./selectorTypes";
 import { FontSelector } from "./fontSelector";
 import { FontStretchSelector } from "./fontStretchSelector";
 import { HTMLEdit } from "./htmlEdit";
+import { usePersistedState } from "./persistedState";
 
 const palettes = [
     { a: "#000000", b: "#ffffff", name: "Black" },
@@ -67,11 +68,12 @@ const fontStretchChoices = [
 
 export function FieldWithOptions({ containerRef }: { containerRef?: RefObject<HTMLDivElement> }) {
     const dialogRef = useRef<HTMLDialogElement>(null);
-    const [fieldConfigs, setFieldConfigs] = useState({
+    const [fieldConfigs, setFieldConfigs] = usePersistedState("fieldConfigs", {
         textColor: "#000000",
         strokeColor: "#ffffff",
         lang: "en",
         fontFamily: "sans-serif",
+        isGoogleFont: false,
         fontWeight: "700",
         fontStyle: "normal",
         fontStretch: "normal",
@@ -152,7 +154,7 @@ export function FieldWithOptions({ containerRef }: { containerRef?: RefObject<HT
                 />
                 <h2>Fonts</h2>
                 <label className={classes.inputGroupColumn}>Font family
-                    <FontSelector value={{ value: fieldConfigs.fontFamily, label: fieldConfigs.fontFamily }} onChange={(fontFamily) => setFieldConfigs(fc => ({ ...fc, fontFamily: fontFamily!.value }))} optionStyles={optionStyles} />
+                    <FontSelector value={{ value: fieldConfigs.fontFamily, label: fieldConfigs.fontFamily }} onChange={(fontFamily) => setFieldConfigs(fc => ({ ...fc, fontFamily: fontFamily!.value, isGoogleFont: fontFamily!.isGoogleFont }))} optionStyles={optionStyles} />
                 </label>
                 <label className={classes.inputGroupRow}>Font weight
                     <input value={fieldConfigs.fontWeight} onChange={(e) => setFieldConfigs(fc => ({ ...fc, fontWeight: e.target.value }))} placeholder="A value between 100 and 900, e.g. 700" style={optionStyles} />

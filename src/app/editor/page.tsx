@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Field } from "./field";
 import { generateSticker } from "./generate";
 import { FieldWithOptions } from "./fieldOptions";
+import { ErrorBoundary } from "./errorBoundary";
 
 export default function Page() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -35,7 +35,9 @@ export default function Page() {
         webapp.ready();
     }, []);
 
-    return <>
-        <FieldWithOptions containerRef={containerRef} />
-    </>;
+    return (
+        <ErrorBoundary>
+            <FieldWithOptions containerRef={containerRef} />
+        </ErrorBoundary>
+    );
 }

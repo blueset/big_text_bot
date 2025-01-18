@@ -21,7 +21,7 @@ const processedFontInfo = fontInfo.fonts.map((f) => ({
 }));
 type FontInfo = (typeof processedFontInfo)[number];
 const defaultFont = processedFontInfo.find((f) => f.value === "Open Sans")!;
-const groupedFamilies: Record<string, string[]> = {};
+const groupedFamilies: Record<string, Record<string, string>> = {};
 fontInfo.families.forEach((item) => {
   const parts = item.split("/");
   if (parts.length === 3) {
@@ -29,12 +29,15 @@ fontInfo.families.forEach((item) => {
     const subCategory = parts[2];
 
     if (!groupedFamilies[category]) {
-      groupedFamilies[category] = [];
+      groupedFamilies[category] = {};
     }
 
-    groupedFamilies[category].push(subCategory);
+    const topFont = processedFontInfo.filter(f => f.families.find(ff => ff.family === item)).map(f => ({...f, score: parseFloat(f.families.find(ff => ff.family === item)!.score)})).sort((a, b) => b.score - a.score)[0].name;
+    groupedFamilies[category][subCategory] = topFont;
   }
 });
+
+const allTopFonts = Object.values(groupedFamilies).map(Object.values).flat().map(f => f as string);
 
 const comboBoxClassesConfig: ClassNamesConfig<any, any, any> = {
   container: () => comboBoxClasses.comboBox,
@@ -60,15 +63,18 @@ function CategorySelector({
   value,
   onChange,
   currentValue,
+  fontFamily,
 }: {
   name: string;
   value: string;
   currentValue: string;
+  fontFamily?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
     <label
       style={
+        fontFamily ? { fontFamily } :
         name in genericFontMapping
           ? {
               fontFamily:
@@ -114,7 +120,7 @@ export function GoogleFontsPicker({
             (f) => f.family === category
           )?.score;
           if (score !== undefined) {
-            font.score = parseInt(score)
+            font.score = parseFloat(score)
             return true;
           }
           return false;
@@ -151,14 +157,15 @@ export function GoogleFontsPicker({
             />
           ))}
         </div>
-          {Object.entries(groupedFamilies).filter(e => e[1].length > 1).map(([familyGroup, families]) => (
+          {Object.entries(groupedFamilies).filter(e => Object.keys(e[1]).length > 1).map(([familyGroup, families]) => (
             <details key={familyGroup} name="families">
               <summary><h2 className={classes.inline}>{familyGroup} categories</h2></summary>
               <div className={classes.categorySelector}>
-                {families.map((family) => (
+                {Object.entries(families).map(([family, topFont]) => (
                   <CategorySelector
                     key={family}
                     name={family}
+                    fontFamily={topFont}
                     value={`/${familyGroup}/${family}`}
                     onChange={onCategoryChange}
                     currentValue={category}
@@ -203,13 +210,14 @@ export function FontLoader({ fonts }: { fonts: string[] }) {
     let cssId = `google-fonts-${elementId}`;
 
     let link = document.getElementById(cssId) as HTMLLinkElement | null;
-    if (!link && fonts.length > 0) {
+    const finalFonts = [...allTopFonts, ...fonts];
+    if (!link && finalFonts.length > 0) {
       link = document.createElement("link");
       link.rel = "stylesheet";
       link.id = cssId;
       const url = new URL(window.location.toString());
       url.pathname = "/api/font";
-      fonts.forEach((f) => url.searchParams.append("family", f));
+      finalFonts.forEach((f) => url.searchParams.append("family", f));
       link.href = url.toString();
       link.setAttribute("data-testid", cssId);
       document.getElementsByTagName("head")[0].appendChild(link);

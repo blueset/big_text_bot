@@ -37,6 +37,14 @@ export default function Page() {
 
     return (
         <ErrorBoundary>
+        {process.env.NODE_ENV === "development" && (
+            <button onClick={async () => {
+                if (!containerRef.current) return;
+                await generateSticker(containerRef);
+            }}>
+                Generate Sticker
+            </button>
+        )}
             <FieldWithOptions containerRef={containerRef} />
         </ErrorBoundary>
     );

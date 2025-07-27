@@ -8,5 +8,17 @@ export async function GET(request: NextRequest) {
     const url = new URL("https://fonts.googleapis.com/css2");
     families.forEach(family => url.searchParams.append("family", family));
     url.searchParams.append("display", "swap");
-    return Response.redirect(url.toString(), 302);
+    
+    // Fetch the CSS from Google Fonts and return it with CORS headers
+    const response = await fetch(url.toString());
+    const css = await response.text();
+    
+    return new Response(css, {
+        headers: {
+            'Content-Type': 'text/css',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET',
+            'Access-Control-Allow-Headers': 'Content-Type',
+        },
+    });
 }

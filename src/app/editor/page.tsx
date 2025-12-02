@@ -9,6 +9,7 @@ import { FallbackModal } from "./fallbackModal";
 export default function Page() {
     const containerRef = useRef<HTMLDivElement>(null);
     const isUploadingRef = useRef<boolean>(false);
+    const fallbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [showFallbackModal, setShowFallbackModal] = useState(false);
     const [currentFileId, setCurrentFileId] = useState<string | null>(null);
 
@@ -26,12 +27,11 @@ export default function Page() {
                     
                     // Show fallback modal after 3 seconds in case switchInlineQuery doesn't work
                     setCurrentFileId(fileId);
-                    setTimeout(() => {
+                    fallbackTimeoutRef.current = setTimeout(() => {
                         setShowFallbackModal(true);
                         webapp.MainButton.hideProgress();
+                        isUploadingRef.current = false;
                     }, 3000);
-                    
-                    isUploadingRef.current = false;
                 }
             } catch (e) {
                 console.error(e);
@@ -40,10 +40,17 @@ export default function Page() {
                     text: `${e}`,
                 });
                 webapp.MainButton.hideProgress();
+                isUploadingRef.current = false;
             }
         });
         webapp.MainButton.show();
         webapp.ready();
+        
+        return () => {
+            if (fallbackTimeoutRef.current) {
+                clearTimeout(fallbackTimeoutRef.current);
+            }
+        };
     }, []);
 
     return (

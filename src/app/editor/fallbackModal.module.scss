@@ -1,0 +1,138 @@
+@import '../variables';
+
+.dialog {
+    max-width: 28rem;
+    width: calc(100% - 2rem);
+    background-color: var(--tg-theme-secondary-bg-color, $secondary-bg-color);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    color: var(--tg-theme-text-color, $text-color);
+    border: 1px solid;
+    @include border-color-mix(var(--tg-theme-text-color, $text-color), 80%);
+
+    &::backdrop {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.message {
+    color: var(--tg-theme-hint-color, $hint-color);
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.composeBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--tg-theme-bg-color, $background-color);
+    border-radius: 1.5rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid;
+    @include border-color-mix(var(--tg-theme-text-color, $text-color), 80%);
+}
+
+.iconSecondary {
+    flex-shrink: 0;
+    color: var(--tg-theme-hint-color, $hint-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        height: 20px;
+        width: 20px;
+    }
+}
+
+.iconAccent {
+    flex-shrink: 0;
+    color: var(--tg-theme-link-color, $link-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        height: 20px;
+        width: 20px;
+    }
+}
+
+.queryText {
+    flex-grow: 1;
+    color: var(--tg-theme-text-color, $text-color);
+    word-break: break-all;
+    font-size: 0.9rem;
+}
+
+.buttonRow {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+}
+
+.button {
+    flex: 1;
+    background-color: var(--tg-theme-button-color, $button-color);
+    color: var(--tg-theme-button-text-color, $button-text-color);
+    border-radius: 0.5rem;
+    border: 0;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+        @include background-color-mix(var(--tg-theme-button-color, $button-color), 20%);
+    }
+
+    &:active {
+        @include background-color-mix(var(--tg-theme-button-color, $button-color), 30%);
+    }
+
+    svg {
+        height: 20px;
+        width: 20px;
+    }
+}
+
+.buttonSecondary {
+    @extend .button;
+    background-color: transparent;
+    border: 1px solid;
+    @include border-color-mix(var(--tg-theme-text-color, $text-color), 60%);
+    color: var(--tg-theme-text-color, $text-color);
+
+    &:hover {
+        @include background-color-mix(var(--tg-theme-text-color, $text-color), 90%);
+    }
+
+    &:active {
+        @include background-color-mix(var(--tg-theme-text-color, $text-color), 85%);
+    }
+}
+
+.copied {
+    background-color: #107c10;
+    color: #ffffff;
+
+    &:hover {
+        @include background-color-mix(#107c10, 20%);
+    }
+
+    &:active {
+        @include background-color-mix(#107c10, 30%);
+    }
+}

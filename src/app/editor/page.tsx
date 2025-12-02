@@ -1,13 +1,17 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { generateSticker } from "./generate";
 import { FieldWithOptions } from "./fieldOptions";
 import { ErrorBoundary } from "./errorBoundary";
+import { FallbackModal } from "./fallbackModal";
 
 export default function Page() {
     const containerRef = useRef<HTMLDivElement>(null);
     const isUploadingRef = useRef<boolean>(false);
+    const fallbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const [showFallbackModal, setShowFallbackModal] = useState(false);
+    const [currentFileId, setCurrentFileId] = useState<string | null>(null);
 
     useEffect(() => {
         const webapp = window?.Telegram?.WebApp;
@@ -20,7 +24,14 @@ export default function Page() {
                     webapp.MainButton.showProgress();
                     const fileId = await generateSticker(containerRef);
                     webapp.switchInlineQuery(`&${fileId}&`);
-                    isUploadingRef.current = false;
+                    
+                    // Show fallback modal after 3 seconds in case switchInlineQuery doesn't work
+                    setCurrentFileId(fileId);
+                    fallbackTimeoutRef.current = setTimeout(() => {
+                        setShowFallbackModal(true);
+                        webapp.MainButton.hideProgress();
+                        isUploadingRef.current = false;
+                    }, 3000);
                 }
             } catch (e) {
                 console.error(e);
@@ -29,10 +40,17 @@ export default function Page() {
                     message: `${e instanceof Error ? e?.message ?? e : e}`,
                 });
                 webapp.MainButton.hideProgress();
+                isUploadingRef.current = false;
             }
         });
         webapp.MainButton.show();
         webapp.ready();
+        
+        return () => {
+            if (fallbackTimeoutRef.current) {
+                clearTimeout(fallbackTimeoutRef.current);
+            }
+        };
     }, []);
 
     return (
@@ -46,6 +64,12 @@ export default function Page() {
             </button>
         )}
             <FieldWithOptions containerRef={containerRef} />
+            {showFallbackModal && currentFileId && (
+                <FallbackModal 
+                    fileId={currentFileId} 
+                    onClose={() => setShowFallbackModal(false)} 
+                />
+            )}
         </ErrorBoundary>
     );
 }

@@ -1,13 +1,16 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { generateSticker } from "./generate";
 import { FieldWithOptions } from "./fieldOptions";
 import { ErrorBoundary } from "./errorBoundary";
+import { FallbackModal } from "./fallbackModal";
 
 export default function Page() {
     const containerRef = useRef<HTMLDivElement>(null);
     const isUploadingRef = useRef<boolean>(false);
+    const [showFallbackModal, setShowFallbackModal] = useState(false);
+    const [currentFileId, setCurrentFileId] = useState<string | null>(null);
 
     useEffect(() => {
         const webapp = window?.Telegram?.WebApp;
@@ -20,6 +23,14 @@ export default function Page() {
                     webapp.MainButton.showProgress();
                     const fileId = await generateSticker(containerRef);
                     webapp.switchInlineQuery(`&${fileId}&`);
+                    
+                    // Show fallback modal after 3 seconds in case switchInlineQuery doesn't work
+                    setCurrentFileId(fileId);
+                    setTimeout(() => {
+                        setShowFallbackModal(true);
+                        webapp.MainButton.hideProgress();
+                    }, 3000);
+                    
                     isUploadingRef.current = false;
                 }
             } catch (e) {
@@ -46,6 +57,12 @@ export default function Page() {
             </button>
         )}
             <FieldWithOptions containerRef={containerRef} />
+            {showFallbackModal && currentFileId && (
+                <FallbackModal 
+                    fileId={currentFileId} 
+                    onClose={() => setShowFallbackModal(false)} 
+                />
+            )}
         </ErrorBoundary>
     );
 }

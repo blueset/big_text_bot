@@ -1,23 +1,18 @@
 @import '../variables';
 
-.overlay {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 1rem;
-    z-index: 100;
-}
-
 .dialog {
     max-width: 28rem;
-    width: 100%;
+    width: calc(100% - 2rem);
     background-color: var(--tg-theme-secondary-bg-color, $secondary-bg-color);
     border-radius: 1rem;
     padding: 1.5rem;
     color: var(--tg-theme-text-color, $text-color);
+    border: 1px solid;
+    @include border-color-mix(var(--tg-theme-text-color, $text-color), 80%);
+
+    &::backdrop {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
 }
 
 .title {

@@ -1,8 +1,9 @@
 import { RefObject } from "react";
 import { canvasSize } from "./consts";
-import { snapdom } from "@zumer/snapdom";
+import { CaptureContext, snapdom } from "@zumer/snapdom";
 import { encode } from "@jsquash/webp";
 import "./dep";
+import { canvasStroke } from "./canvasStroke";
 
 function arrayBufferToBase64(buffer: BufferSource) {
   var binary = "";
@@ -22,7 +23,21 @@ export async function generateSticker(
   const parentElement = container.parentElement;
   if (!parentElement) throw new Error("Container has no parent");
 
-  const canvasNode = await snapdom.toCanvas(container, { width: canvasSize, height: canvasSize, dpr: 1, embedFonts: true });
+  const canvasNode = await snapdom.toCanvas(container, {
+    width: canvasSize,
+    height: canvasSize,
+    dpr: 1,
+    embedFonts: true,
+    plugins: [
+      {
+        name: "strokeHook",
+        afterClone: (context: CaptureContext) => {
+          context.clone?.querySelector("[data-ref='text']")?.remove();
+        },
+      },
+    ],
+  });
+  await canvasStroke(canvasNode, parentElement.style.getPropertyValue("--field-stroke-color") || "white");
   const ctx = canvasNode.getContext("2d");
   if (!ctx) throw new Error("Failed to get canvas context");
 

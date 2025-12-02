@@ -1,68 +1,8 @@
 import { RefObject } from "react";
 import { canvasSize } from "./consts";
-import html2canvas from "html2canvas";
-import domtoimage from "dom-to-image-more";
+import { snapdom } from "@zumer/snapdom";
 import { encode } from "@jsquash/webp";
 import "./dep";
-
-function draw(
-  domNode: Node,
-  options: domtoimage.DomToImageOptions,
-  parentElement: HTMLElement
-): Promise<HTMLCanvasElement> {
-  options = options || {};
-  return domtoimage
-    .toSvg(domNode, options)
-    .then(domtoimage.impl.util.makeImage)
-    .then(function (image) {
-      const scale = typeof options.scale !== "number" ? 1 : options.scale;
-      const canvas = newCanvas(domNode, scale);
-      const ctx = canvas.getContext("2d");
-      if (!ctx) {
-        throw new Error("Failed to get canvas context");
-      }
-      if (image) {
-        ctx.scale(scale, scale);
-        ctx.imageSmoothingEnabled = false;
-        ctx.lineJoin = "round";
-        ctx.drawImage(image, 0, 0);
-      }
-      return canvas;
-    });
-
-  function newCanvas(node: Node, scale: number) {
-    let width = options.width || domtoimage.impl.util.width(node);
-    let height = options.height || domtoimage.impl.util.height(node);
-
-    // per https://www.w3.org/TR/CSS2/visudet.html#inline-replaced-width the default width should be 300px if height
-    // not set, otherwise should be 2:1 aspect ratio for whatever height is specified
-    if (domtoimage.impl.util.isDimensionMissing(width)) {
-      width = domtoimage.impl.util.isDimensionMissing(height)
-        ? 300
-        : height * 2.0;
-    }
-
-    if (domtoimage.impl.util.isDimensionMissing(height)) {
-      height = width / 2.0;
-    }
-
-    const canvas = document.createElement("canvas");
-    parentElement.appendChild(canvas);
-    canvas.width = width * scale;
-    canvas.height = height * scale;
-
-    if (options.bgcolor) {
-      const ctx = canvas.getContext("2d");
-      if (!ctx) {
-        throw new Error("Failed to get canvas context");
-      }
-      ctx.fillStyle = options.bgcolor;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
-
-    return canvas;
-  }
-}
 
 function arrayBufferToBase64(buffer: BufferSource) {
   var binary = "";
@@ -82,44 +22,11 @@ export async function generateSticker(
   const parentElement = container.parentElement;
   if (!parentElement) throw new Error("Container has no parent");
 
-  // const canvasNode = document.createElement("canvas");
-  // parentElement.appendChild(canvasNode);
-  // canvasNode.width = canvasSize;
-  // canvasNode.height = canvasSize;
-  // const ctx = canvasNode.getContext("2d");
-  // if (!ctx) throw new Error("Failed to get canvas context");
-
-  // ctx.lineJoin = "round";
-  const oldScale = parentElement.style.scale;
-  parentElement.style.scale = "1";
-  // await html2canvas(container, {
-  //   backgroundColor: null,
-  //   scale: 1,
-  //   canvas: canvasNode,
-  // });
-  const options: domtoimage.DomToImageOptions = {
-    // bgcolor: "transparent",
-    width: canvasSize,
-    height: canvasSize,
-    scale: 1,
-  };
-  const canvasNode = await draw(container, options, parentElement);
+  const canvasNode = await snapdom.toCanvas(container, { width: canvasSize, height: canvasSize, dpr: 1, embedFonts: true });
   const ctx = canvasNode.getContext("2d");
   if (!ctx) throw new Error("Failed to get canvas context");
 
-  canvasNode.remove();
-  parentElement.style.scale = oldScale;
   const imgBuffer = ctx.getImageData(0, 0, 512, 512);
-  console.log(
-    "width",
-    imgBuffer.width,
-    "height",
-    imgBuffer.height,
-    "colorSpace",
-    imgBuffer.colorSpace,
-    "data",
-    imgBuffer.data.length
-  );
 
   const encodedBuffer = await encode(imgBuffer);
 

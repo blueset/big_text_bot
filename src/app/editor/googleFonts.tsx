@@ -215,8 +215,9 @@ export function FontLoader({ fonts }: { fonts: string[] }) {
       link = document.createElement("link");
       link.rel = "stylesheet";
       link.id = cssId;
-      const url = new URL(window.location.toString());
-      url.pathname = "/api/font";
+      // const url = new URL(window.location.toString());
+      // url.pathname = "/api/font";
+      const url = new URL("https://fonts.googleapis.com/css2");
       finalFonts.forEach((f) => url.searchParams.append("family", f));
       link.href = url.toString();
       link.setAttribute("data-testid", cssId);

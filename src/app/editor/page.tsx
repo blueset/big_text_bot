@@ -26,7 +26,7 @@ export default function Page() {
                 console.error(e);
                 webapp.showPopup({
                     title: "Error",
-                    text: `${e}`,
+                    message: `${e instanceof Error ? e?.message ?? e : e}`,
                 });
                 webapp.MainButton.hideProgress();
             }

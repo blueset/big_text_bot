@@ -12,6 +12,7 @@
     "@jsquash/webp": "^1.2.0",
     "@saschazar/wasm-webp": "^3.0.1",
     "@uiw/react-textarea-code-editor": "^3.0.2",
+    "@zumer/snapdom": "^2.0.1",
     "dom-to-image-more": "^3.6.0",
     "html2canvas": "^1.4.1",
     "next": "14.2.10",
